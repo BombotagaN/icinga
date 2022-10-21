@@ -1,0 +1,9 @@
+apply Service "disk_by_ssh" {
+   import "generic-service"
+   check_command = "check_by_ssh"
+   vars.check_by_ssh_command = "$ssh_chcek_command$" + "$disk_warn$" + "$disk_crit$"
+   vars.ssh_chcek_command = "/usr/lib/nagios/plugins/check_disk"
+   vars.disk_warn = " -w " + host.vars.sshdiskwarn
+   vars.disk_crit = " -c " + host.vars.sshdiskcrit
+   assign where host.vars.checkbyssh == "true"
+}
